@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-commerce Application</title>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- Your e-commerce app components will go here -->
+    </div>
+</body>
+</html>
+
+
+<!--header component-->
+<div x-data="{ cartOpen: false }">
+    <header>
+        <h1>My E-commerce Store</h1>
+        <button @click="cartOpen = !cartOpen">Cart</button>
+        <div x-show="cartOpen">
+            <!-- Cart items will be displayed here -->
+        </div>
+    </header>
+</div>
+
+
+
