@@ -115,8 +115,8 @@
                     <div class="bg-white rounded-lg shadow-md p-5">
                         <img :src="product.image" :alt="product.title" class="w-full h-64 object-cover mb-4 rounded-t-lg">
                         <h2 x-text="product.title" class="text-lg font-semibold mb-2"></h2>
-                        <p x-text="product.description" class="text-gray-600 mb-4"></p>
                         <p class="text-xl font-bold text-gray-800">$<span x-text="product.price"></span></p>
+                        <p x-text="product.category" class="text-gray-600 mb-4"></p>
                     </div>
                 </template>
             </div>
@@ -189,8 +189,7 @@
         }
     </script>
 
+    <!--Products-->
+
 </body>
 </html>
-
-
-
