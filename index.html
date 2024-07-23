@@ -43,6 +43,47 @@
                         />
                     </svg>
                 </button>
+
+                <div :class="isOpen ? 'block' : 'hidden'" class="w-full md:block md:w-auto" id="navbar-dropdown">
+                    <ul class="flex flex-col top-10 font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-500 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0">
+                        <li>
+                            <a href="#" class="block py-2 px-3 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">
+                                Wishlist
+                            </a>
+                        </li>
+                        <li class="hidden lg:block md:block relative">
+                            <div class="t-0 absolute left-3 -top-4">
+                                <p class="flex h-2 w-2 items-center justify-center rounded-full bg-red-500 p-3 text-xs text-white">
+                                    2
+                                </p>
+                            </div>
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                strokeWidth="1.5"
+                                stroke="currentColor"
+                                class="h-6 w-6 stroke-white cursor-pointer"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
+                                />
+                            </svg>
+                        </li>
+                        <li>
+                            <a href="#" class="lg:hidden md:hidden py-2 px-3 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">
+                                Cart
+                            </a>
+                        </li>
+                        <li>
+                            <a href="login" class="block py-2 px-3 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">
+                                Login
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </nav>
     </header>
@@ -58,48 +99,33 @@
             </select>
             <select x-model="filterItem" @change="fetchProducts" class="p-2 border border-gray-300 rounded">
                 <option value="All categories">All categories</option>
-                <option value="electronics">Electronics</option>
-                <option value="jewelery">Jewelery</option>
-                <option value="men's clothing">Men's Clothing</option>
-                <option value="women's clothing">Women's Clothing</option>
+                <template x-for="category in categories" :key="category">
+                    <option x-text="category"></option>
+                </template>
             </select>
         </div>
-    
+
         <template x-if="loading">
             <p>Loading...</p>
         </template>
-    
+
         <template x-if="!loading && products.length > 0">
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 <template x-for="product in products" :key="product.id">
-                    <div class="bg-white rounded-lg shadow-md p-5 cursor-pointer" @click="fetchProduct(product.id)">
-                        <img :src="product.image" :alt="product.title" class="w-full h-64 object-contain mb-4 rounded-t-lg">
-                        <h2 x-text="product.title" class="text-lg font-semibold mb-2"></h2>
-                        <p class="text-xl font-bold text-gray-800">$<span x-text="product.price"></span></p>
-                        <p x-text="product.category" class="text-gray-600 mb-4"></p>
-                        
-                        <!-- Ratings -->
-                        <div x-data="{ yellowStars: Math.round(product.rating.rate), blankStars: 5 - Math.round(product.rating.rate) }" class="flex items-left -ml-2 mb-2">
-                            <template x-for="index in yellowStars" :key="index">
-                                <svg
-                                    class="w-4 h-4 text-yellow-300 ms-1"
-                                    aria-hidden="true"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="currentColor"
-                                    viewBox="0 0 22 20"
-                                >
-                                    <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+                    <div @click="fetchProduct(product.id)" class="bg-white rounded-lg shadow-md p-4 cursor-pointer">
+                        <img class="object-contain h-48 w-full" :src="product.image" alt="Product Image">
+                        <h2 class="text-lg font-semibold mt-2" x-text="product.title"></h2>
+                        <p class="text-gray-600" x-text="`Price: $${product.price}`"></p>
+                        <p class="text-gray-600" x-text="`Category: ${product.category}`"></p>
+                        <div class="flex items-center mt-2">
+                            <template x-for="star in Math.floor(product.rating.rate)" :key="star">
+                                <svg class="w-4 h-4 fill-current text-yellow-500" viewBox="0 0 24 24">
+                                    <path d="M12 .587l3.668 7.425L23.8 9.548l-5.7 5.622 1.346 7.834L12 18.896 4.554 22.994l1.346-7.834-5.7-5.622 8.132-1.536L12 .587z"/>
                                 </svg>
                             </template>
-                            <template x-for="index in blankStars" :key="index">
-                                <svg
-                                    class="w-4 h-4 ms-1 text-gray-300 dark:text-gray-500"
-                                    aria-hidden="true"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="currentColor"
-                                    viewBox="0 0 22 20"
-                                >
-                                    <path d="M20.537 9.2 16.88 5.637a1.535 1.535 0 0 0-1.151-.446L10.678 5.15 8.418 7.5a1.535 1.535 0 0 0-.326 1.2L7.18 13.73l-4.422-2.557a1.534 1.534 0 0 0-2.138 1.514l.842 5.025L1.463 9.2a1.535 1.535 0 0 0 1.15.446l5.051.733 2.26 4.577a1.535 1.535 0 0 0 2.752 0l2.259-4.577 5.051-.733a1.535 1.535 0 0 0 1.152-.445 1.523 1.523 0 0 0-.387-1.575Z" />
+                            <template x-for="star in 5 - Math.floor(product.rating.rate)" :key="star">
+                                <svg class="w-4 h-4 fill-current text-gray-300" viewBox="0 0 24 24">
+                                    <path d="M12 .587l3.668 7.425L23.8 9.548l-5.7 5.622 1.346 7.834L12 18.896 4.554 22.994l1.346-7.834-5.7-5.622 8.132-1.536L12 .587z"/>
                                 </svg>
                             </template>
                         </div>
@@ -108,15 +134,15 @@
                 </template>
             </div>
         </template>
-    
+
         <template x-if="!loading && products.length === 0">
             <p>No products available.</p>
         </template>
-    
+
         <template x-if="error">
             <p x-text="error.message" class="text-red-500"></p>
         </template>
-    
+
         <!-- Modal -->
         <div x-show="isModalOpen" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
             <div class="bg-white rounded-lg p-6 max-w-lg w-full">
@@ -133,12 +159,13 @@
             </div>
         </div>
     </div>
-    
+
     <script>
         function productStore() {
             return {
                 products: [],
                 originalProducts: [],
+                categories: [],
                 selectedProduct: {},
                 isModalOpen: false,
                 loading: false,
@@ -146,7 +173,7 @@
                 sorting: 'default',
                 searchTerm: '',
                 filterItem: 'All categories',
-                
+
                 async fetchProducts() {
                     this.loading = true;
                     this.error = false;
@@ -164,13 +191,31 @@
                         this.originalProducts = JSON.parse(JSON.stringify(data));
                         this.sortProducts();
                         this.searchProducts();
+                        this.fetchCategories();
                     } catch (error) {
                         this.error = error;
                     } finally {
                         this.loading = false;
                     }
                 },
-    
+
+                async fetchCategories() {
+                    this.loading = true;
+                    this.error = false;
+                    const url = 'https://fakestoreapi.com/products/categories';
+                    try {
+                        const response = await fetch(url);
+                        if (!response.ok) {
+                            throw new Error('Categories fetching failed, please check your network connection');
+                        }
+                        this.categories = await response.json();
+                    } catch (error) {
+                        this.error = error;
+                    } finally {
+                        this.loading = false;
+                    }
+                },
+
                 sortProducts() {
                     if (this.sorting !== 'default') {
                         this.products.sort((a, b) => 
@@ -180,7 +225,7 @@
                         this.products = JSON.parse(JSON.stringify(this.originalProducts));
                     }
                 },
-    
+
                 searchProducts() {
                     if (this.searchTerm.trim() !== '') {
                         this.products = this.originalProducts.filter(product =>
@@ -190,7 +235,7 @@
                         this.products = JSON.parse(JSON.stringify(this.originalProducts));
                     }
                 },
-                
+
                 async fetchProduct(id) {
                     this.loading = true;
                     this.error = false;
