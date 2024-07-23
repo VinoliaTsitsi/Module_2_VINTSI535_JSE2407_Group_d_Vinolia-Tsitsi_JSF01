@@ -15,7 +15,7 @@ This project is an online shopping application built using JavaScript, specifica
 1. Clone the repository: `git clone https://github.com/your-username/VINTSI535-JSE2407-Group_d-Vinolia-Tsitsi.git`
 2. Navigate to the project directory: `cd VINTSI535-JSE2407-Group_d-Vinolia-Tsitsi`
 
-## Built With
+## Built With technologies
 
 - [Node.js](https://nodejs.org/) - JavaScript runtime
 - [Alpine.js](https://alpinejs.com/) - A minimal, lightweight framework for composing JavaScript behavior in your markup

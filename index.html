@@ -8,7 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body class="bg-gray-100 p-5">
+<body class="bg-blue-100 p-5">
     <!--Header-->
     <header>
         <nav class="bg-gray-500 border-gray-200">
@@ -25,21 +25,24 @@
       
     <!--Products layout-->
     <div x-data="productStore()" x-init="fetchProducts">
-        <div class="mb-4">
-            <input type="text" placeholder="Search" x-model="searchTerm" @input="searchProducts" class="p-2 border border-gray-300 rounded ">
-            <select x-model="sorting" @change="sortProducts" class="p-2 border border-gray-300 rounded">
-                <option value="default">Default</option>
-                <option value="low">Price: Low to High</option>
-                <option value="high">Price: High to Low</option>
-            </select>
-
-            <select x-model="filterItem" @change="fetchProducts" class="p-2 border border-gray-300 rounded">
-                <option value="All categories">All categories</option>
-                <template x-for="category in categories" :key="category">
-                    <option x-text="category"></option>
-                </template>
-            </select>
-        </div>
+        <div class="mb-4 flex justify-between items-center">
+            <div class="flex space-x-4">
+                <select x-model="sorting" @change="sortProducts" class="p-2 border border-gray-300 rounded">
+                    <option value="default">Default</option>
+                    <option value="low">Price: Low to High</option>
+                    <option value="high">Price: High to Low</option>
+                </select>
+        
+                <select x-model="filterItem" @change="fetchProducts" class="p-2 border border-gray-300 rounded">
+                    <option value="All categories">All categories</option>
+                    <template x-for="category in categories" :key="category">
+                        <option x-text="category"></option>
+                    </template>
+                </select>
+            </div>
+        
+            <input type="text" placeholder="Search" x-model="searchTerm" @input="searchProducts" class="p-2 border border-gray-300 rounded-full bg-green-200 placeholder-gray-500 placeholder-opacity-75">
+        </div>        
 
         <template x-if="loading">
             <p>Loading...</p>
