@@ -32,6 +32,7 @@
                 <option value="low">Price: Low to High</option>
                 <option value="high">Price: High to Low</option>
             </select>
+
             <select x-model="filterItem" @change="fetchProducts" class="p-2 border border-gray-300 rounded">
                 <option value="All categories">All categories</option>
                 <template x-for="category in categories" :key="category">
@@ -45,7 +46,7 @@
         </template>
 
         <template x-if="!loading && products.length > 0">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
                 <template x-for="product in products" :key="product.id">
                     <div @click="fetchProduct(product.id)" class="bg-white rounded-lg shadow-md p-4 cursor-pointer">
                         <img class="object-contain h-48 w-full" :src="product.image" alt="Product Image">
